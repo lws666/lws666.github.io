@@ -32,4 +32,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           publish_branch: main   # 推送到 main 分支
-          force_orphan: true      # 使 main 分支只包含最新的静态文件
