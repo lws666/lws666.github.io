@@ -14,7 +14,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           submodules: recursive   # 如果用了主题子模块，保留这行
 
-      - name: Use Node.js 20
+      - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
           node-version: "24"      # ← 这里改成你的 Node 主版本
