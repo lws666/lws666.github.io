@@ -33,7 +33,7 @@ import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.com',
+	site: 'https://www.lwsnb.dpdns.org',
 	base: "/",
 	trailingSlash: "always",
 
