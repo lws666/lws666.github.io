@@ -1,0 +1,36 @@
+---
+export interface Props {
+  src: string;            // 视频源
+  poster: string;         // 封面图 URL（可以来自 import 的图片对象）
+  type?: string;          // 视频类型，默认 mp4
+  controls?: boolean;     // 是否显示控制栏
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  class?: string;         // 额外样式
+}
+
+const {
+  src,
+  poster,
+  type = 'video/mp4',
+  controls = true,
+  autoplay = false,
+  loop = false,
+  muted = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<video
+  poster={poster}
+  controls={controls}
+  autoplay={autoplay}
+  loop={loop}
+  muted={muted}
+  class={`max-w-full h-auto ${className}`}
+>
+  <source src={src} type={type} />
+  <p>你的浏览器不支持视频播放。</p>
+</video>
+
