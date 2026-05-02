@@ -9,7 +9,7 @@ image: "https://img.lwsnb.dpdns.org/file/1770349301804_DefualtThumbnail.jpg.webp
 
 ## hello world
 
-import Video from '../components/Video.astro';
-
-<video src="https://img.lwsnb.dpdns.org/file/1770349035639_VID_20260120_212010_322.mp4" poster="images/albums/AcgExample/1.webp">
+<video width="640" height="360" controls="" poster="https://img.lwsnb.dpdns.org/file/1770349301804_DefualtThumbnail.jpg.webp">
+  <source src="https://img.lwsnb.dpdns.org/file/1770349035639_VID_20260120_212010_322.mp4" type="video/mp4"/>
+  你的浏览器不支持 HTML5 视频。
 </video>
