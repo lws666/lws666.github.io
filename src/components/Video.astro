@@ -1,36 +1,79 @@
 ---
-export interface Props {
-  src: string;            // 视频源
-  poster: string;         // 封面图 URL（可以来自 import 的图片对象）
-  type?: string;          // 视频类型，默认 mp4
-  controls?: boolean;     // 是否显示控制栏
-  autoplay?: boolean;
-  loop?: boolean;
-  muted?: boolean;
-  class?: string;         // 额外样式
+// src/components/Video.astro
+interface Props {
+  src: string;        // 视频地址 (本地路径或 URL)
+  poster?: string;     // 封面图地址
+  width?: string;      // 宽度，默认 100%
+  caption?: string;    // 视频下方的文字说明
+  autoplay?: boolean;  // 是否自动播放
 }
 
-const {
-  src,
-  poster,
-  type = 'video/mp4',
-  controls = true,
-  autoplay = false,
-  loop = false,
-  muted = false,
-  class: className = '',
-} = Astro.props;
+const { src, poster, width = "100%", caption, autoplay = false } = Astro.props;
+
+// 判断是否为外部 B 站链接（简单正则判断）
+const isBilibili = src.includes('bilibili.com') || src.includes('player.bilibili.com');
 ---
 
-<video
-  poster={poster}
-  controls={controls}
-  autoplay={autoplay}
-  loop={loop}
-  muted={muted}
-  class={`max-w-full h-auto ${className}`}
->
-  <source src={src} type={type} />
-  <p>你的浏览器不支持视频播放。</p>
-</video>
+<div class="video-container" style={`max-width: ${width};`}>
+  {isBilibili ? (
+    /* 如果是 B 站视频，使用 iframe 嵌入 */
+    <div class="iframe-wrapper">
+      <iframe 
+        src={src.includes('player.bilibili.com') ? src : `//player.bilibili.com/player.html?bvid=${src.split('/').pop()}`} 
+        scrolling="no" 
+        border="0" 
+        frameborder="no" 
+        framespacing="0" 
+        allowfullscreen="true"
+      ></iframe>
+    </div>
+  ) : (
+    /* 如果是普通 MP4 或本地视频 */
+    <video 
+      controls 
+      preload="metadata" 
+      poster={poster} 
+      autoplay={autoplay}
+      muted={autoplay} 
+      class="video-element"
+    >
+      <source src={src} type="video/mp4" />
+      您的浏览器不支持 HTML5 视频。
+    </video>
+  )}
+  
+  {caption && <p class="caption">{caption}</p>}
+</div>
+
+<style>
+  .video-container {
+    margin: 2rem auto;
+    width: 100%;
+  }
+  .video-element {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    background: #000;
+  }
+  .iframe-wrapper {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 比例 */
+  }
+  .iframe-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+  }
+  .caption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.8rem;
+  }
+</style>
 
